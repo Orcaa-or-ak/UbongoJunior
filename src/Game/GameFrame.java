@@ -20,7 +20,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     private List<Integer> availableBoards3 = new ArrayList<>();
     private CountdownTimer timer;
     private Timer checkTimer;
-    private int mode;
+    private int mode = 0;
     private int lastRoll = -1;
     private int score = 0;
     private int boardCount =  0;
@@ -175,6 +175,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     private void TwoPiecesModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TwoPiecesModeActionPerformed
         // TODO add your handling code here:
         startGame(2);
+        TwoPiecesMode.setEnabled(false);
         ThreePiecesMode.setEnabled(false);
         mode = 2;
         
@@ -184,13 +185,16 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         // TODO add your handling code here:
         if (timer != null) {
         timer.stopTime();
+        timer = null;
         }
         if (checkTimer != null) {
         checkTimer.stop();
+        checkTimer = null;
         }
         
         boardCount = 0;
         score = 0;
+        mode = 0;
         updateScore();
         playArea.removeAll();
         TimerPanel.removeAll();
@@ -206,6 +210,8 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         // TODO add your handling code here:
         startGame(3);
         TwoPiecesMode.setEnabled(false);
+        ThreePiecesMode.setEnabled(false);
+        mode = 3;
     }//GEN-LAST:event_ThreePiecesModeActionPerformed
 
 
@@ -316,8 +322,10 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
                 block1 = new GameBlock(BlockLayout.GECKO_BLOCK, Color.yellow,BlockLayout.GeckoBound);
                 block2 = new GameBlock(BlockLayout.LION_BLOCK, Color.red,BlockLayout.LionBound);
             }
-                 
+                
         }
+        
+        
     }
     
     private void getRandomBoard3(){
@@ -400,6 +408,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
                 block3 = new GameBlock(BlockLayout.TUCAN_BLOCK, Color.blue,BlockLayout.TucanBound);
             }
         }
+        
     }    
     
     
@@ -416,10 +425,12 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     
     public void displayWellDone(){
         if (checkTimer != null) {
-           checkTimer.stop();  // Stop the checkTimer
+           checkTimer.stop();// Stop the checkTimer
+           checkTimer = null;
         }
         if (timer != null){
             timer.stopTime();
+            timer = null;
         }
         playArea.removeAll(); // Clear the play area
         JLabel WellDoneLabel = new JLabel("Well Done!", SwingConstants.CENTER);
@@ -432,10 +443,12 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     
     public void displayGameOver() {
         if (checkTimer != null) {
-           checkTimer.stop();  // Stop the checkTimer
+           checkTimer.stop();// Stop the checkTimer
+           checkTimer = null;
         }
         if (timer != null){
             timer.stopTime();
+            timer = null;
         }
         playArea.removeAll(); // Clear the play area
         JLabel gameOverLabel = new JLabel("Game Over", SwingConstants.CENTER);
@@ -453,8 +466,8 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         setupPuzzleCheckTimer();
     }
     
-    public void initializeBoardLists(){
-        for (int i = 0; i < 10; i++) {
+    private void initializeBoardLists(){
+        for (int i = 1; i <= 10; i++) {
             availableBoards2.add(i);
             availableBoards3.add(i);
         }
@@ -478,12 +491,8 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
                }
            }
            else {
-               if (timer != null) {
-                    timer.stopTime();// Stop the countdown timer
-                }
-               
-               updateScore();
                displayWellDone();
+               updateScore();
            }
         }
     }
@@ -491,14 +500,20 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     public void loadNewBoard(int mode) {
         playArea.removeAll();
         if (mode == 2) {
-            getRandomBoard2(); // Logic for 2 blocks
+            getRandomBoard2();
+            block1.setLocation(50,350);
+            block2.setLocation(300,350);
         } else if (mode == 3) {
-            getRandomBoard3(); // Logic for 3 blocks
+            getRandomBoard3();
+            block1.setLocation(50,350);
+            block2.setLocation(300,350);      
+            block3.setLocation(200,500);
         }
 
         // Common logic for adding blocks to the board
         board.addGameBlock(block1);
         board.addGameBlock(block2);
+        
         if (mode == 3) {
             board.addGameBlock(block3); // Add the third block only for 3-block mode
         }
@@ -530,7 +545,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     }
     
     private void setupPuzzleCheckTimer() {
-        checkTimer = new Timer(1000, e -> checkPuzzleCompletion());
+        checkTimer = new Timer(1500, e -> checkPuzzleCompletion());
         checkTimer.start();
     }
     

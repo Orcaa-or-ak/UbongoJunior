@@ -34,7 +34,7 @@ public class GameBoard extends JPanel {
         for (int i = 0; i < blockShape.length; i++) {
             for (int j = 0; j < blockShape[i].length; j++) {
                 if (blockShape[i][j]) {
-                    int row = (blockPosition.y / CELL_SIZE + i) - 3;
+                    int row = (blockPosition.y / CELL_SIZE + i) - 1;
                     int col = (blockPosition.x / CELL_SIZE + j) - 3;
 
                     if (row < 0 || row >= currentBoardState.length ||
@@ -96,7 +96,7 @@ public class GameBoard extends JPanel {
 
             // Calculate the top-left corner of the current square
             int x = 3 * offsetX + j * 50; // Include the offset directly in the calculation
-            int y = 3 * offsetY + i * 50; // Include the offset directly in the calculation
+            int y = 1 * offsetY + i * 50; // Include the offset directly in the calculation
 
             if (boardShape[i][j]) {
                 // If the current square is part of the shape, fill it
