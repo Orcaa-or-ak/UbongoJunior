@@ -18,12 +18,9 @@ public class CountdownTimer extends JProgressBar {
         Font font = new Font("Ravie", 0, 20);
         setFont(font);
         // Đặt màu chữ
-        Color textColor = new Color(55, 217, 104);
-        setForeground(textColor);
+        Color begin = new Color(55, 217, 104);
+        setForeground(begin);
 
-        // Đặt màu nền
-        Color backgroundColor = new Color(2, 191, 187);
-        setBackground(backgroundColor);
         this.countdownValue = originalCountdownValue;
 //----------------------------------------------------------------
         timer = new javax.swing.Timer(1000, e -> {
@@ -35,6 +32,10 @@ public class CountdownTimer extends JProgressBar {
                 }
                 else if (countdownValue <= 30) {
                     over = new Color(180, 172, 0);
+                    setForeground(over);
+                }
+                else if (countdownValue <= 40) {
+                    over = new Color(55, 217, 104);
                     setForeground(over);
                 }
                 setValue(countdownValue);
@@ -50,7 +51,7 @@ public class CountdownTimer extends JProgressBar {
         startCountdown();
     }
 
-    public void startCountdown() {
+    private void startCountdown() {
         setValue(countdownValue);
         setString(Integer.toString(countdownValue));
         timer.start();
