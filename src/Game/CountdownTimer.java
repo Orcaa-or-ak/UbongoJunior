@@ -31,7 +31,7 @@ public class CountdownTimer extends JProgressBar {
                     setForeground(over);
                 }
                 else if (countdownValue <= 30) {
-                    over = new Color(180, 172, 0);
+                    over = new Color(225,198,0);
                     setForeground(over);
                 }
                 else if (countdownValue <= 40) {

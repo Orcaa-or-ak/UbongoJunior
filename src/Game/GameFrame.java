@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.plaf.ColorUIResource;
 
 
 public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
@@ -38,6 +39,12 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         players = new ArrayList<>();
         for (int i = 0; i < numberOfPlayers; i++) {
             players.add(new Player());
+            switch(i){
+                case 0 -> Score0.setText("Player 1 : 0");
+                case 1 -> Score1.setText("Player 2 : 0");
+                case 2 -> Score2.setText("Player 3 : 0");
+                case 3 -> Score3.setText("Player 4 : 0");
+            }
         }        
     }
 
@@ -52,15 +59,17 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         ModePanel = new javax.swing.JPanel();
         TwoPiecesMode = new javax.swing.JButton();
         ThreePiecesMode = new javax.swing.JButton();
-        ResetButton = new javax.swing.JButton();
         ScorePanel = new javax.swing.JPanel();
-        Score = new javax.swing.JLabel();
+        Score0 = new javax.swing.JLabel();
+        Score1 = new javax.swing.JLabel();
+        Score2 = new javax.swing.JLabel();
+        Score3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 0, 204));
         setResizable(false);
 
-        playArea.setBackground(new java.awt.Color(224, 25, 22));
+        playArea.setBackground(new java.awt.Color(153, 0, 0));
         playArea.setMaximumSize(new java.awt.Dimension(1000, 1000));
         playArea.setMinimumSize(new java.awt.Dimension(250, 250));
         playArea.setPreferredSize(new java.awt.Dimension(500, 500));
@@ -72,21 +81,21 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         NotifySeleceModeLabel.setText("Please select a mode");
         playArea.add(NotifySeleceModeLabel, java.awt.BorderLayout.CENTER);
 
-        TimerPanel.setBackground(new java.awt.Color(216, 32, 18));
+        TimerPanel.setBackground(new java.awt.Color(153, 0, 0));
         TimerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Timer", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ravie", 0, 36), new java.awt.Color(255, 255, 255))); // NOI18N
         TimerPanel.setLayout(new java.awt.BorderLayout());
 
-        ModePanel.setBackground(new java.awt.Color(216, 32, 18));
+        ModePanel.setBackground(new java.awt.Color(153, 0, 0));
         ModePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mode", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ravie", 0, 36), new java.awt.Color(255, 255, 255))); // NOI18N
 
-        TwoPiecesMode.setText("2 pieces");
+        TwoPiecesMode.setText("2 Blocks");
         TwoPiecesMode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TwoPiecesModeActionPerformed(evt);
             }
         });
 
-        ThreePiecesMode.setText("3 pieces");
+        ThreePiecesMode.setText("3 Blocks");
         ThreePiecesMode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ThreePiecesModeActionPerformed(evt);
@@ -113,20 +122,28 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        ResetButton.setText("Reset");
-        ResetButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ResetButtonActionPerformed(evt);
-            }
-        });
-
-        ScorePanel.setBackground(new java.awt.Color(216, 32, 18));
+        ScorePanel.setBackground(new java.awt.Color(153, 0, 0));
         ScorePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Score", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ravie", 0, 36), new java.awt.Color(255, 255, 255))); // NOI18N
 
-        Score.setFont(new java.awt.Font("Ravie", 0, 24)); // NOI18N
-        Score.setForeground(new java.awt.Color(255, 255, 255));
-        Score.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Score.setText("0");
+        Score0.setFont(new java.awt.Font("Ravie", 0, 20)); // NOI18N
+        Score0.setForeground(new java.awt.Color(255, 255, 255));
+        Score0.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Score0.setText("Player 1 : ");
+
+        Score1.setFont(new java.awt.Font("Ravie", 0, 20)); // NOI18N
+        Score1.setForeground(new java.awt.Color(255, 255, 255));
+        Score1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Score1.setText("Player 2 :");
+
+        Score2.setFont(new java.awt.Font("Ravie", 0, 20)); // NOI18N
+        Score2.setForeground(new java.awt.Color(255, 255, 255));
+        Score2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Score2.setText("Player 3 :");
+
+        Score3.setFont(new java.awt.Font("Ravie", 0, 20)); // NOI18N
+        Score3.setForeground(new java.awt.Color(255, 255, 255));
+        Score3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Score3.setText("Player 4 :");
 
         javax.swing.GroupLayout ScorePanelLayout = new javax.swing.GroupLayout(ScorePanel);
         ScorePanel.setLayout(ScorePanelLayout);
@@ -134,15 +151,25 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
             ScorePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ScorePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(Score, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                .addGroup(ScorePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Score0, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                    .addComponent(Score1, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                    .addComponent(Score2, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                    .addComponent(Score3, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE))
                 .addContainerGap())
         );
         ScorePanelLayout.setVerticalGroup(
             ScorePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ScorePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(Score, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addComponent(Score0, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Score1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Score2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Score3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -155,10 +182,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(TimerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ModePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ScorePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(ResetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                    .addComponent(ScorePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,10 +192,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ModePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ScorePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ResetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(ScorePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -183,51 +204,16 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         TwoPiecesMode.setEnabled(false);
         ThreePiecesMode.setEnabled(false);
         mode = 2;
-        TimerPanel.setBackground(new Color(4,137,37));
-        ModePanel.setBackground(new Color(4,137,37));
-        ScorePanel.setBackground(new Color(4,137,37));
-        this.revalidate();
-        this.repaint();
-    }//GEN-LAST:event_TwoPiecesModeActionPerformed
+        
 
-    private void ResetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetButtonActionPerformed
-        // TODO add your handling code here:
-        if (timer != null) {
-        timer.stopTime();
-        timer = null;
-        }
-        if (checkTimer != null) {
-        checkTimer.stop();
-        checkTimer = null;
-        }
-        for (Player player : players) {
-            player.resetScore();
-        }
-        currentPlayerIndex = 0;
-        boardCount = 0;
-        mode = 0;
-        Score.setText("0");
-        playArea.removeAll();
-        TimerPanel.removeAll();
-        playArea.add(NotifySeleceModeLabel);
-        this.revalidate();
-        this.repaint();
-        TwoPiecesMode.setEnabled(true);
-        ThreePiecesMode.setEnabled(true);
-        initializeBoardLists();
-    }//GEN-LAST:event_ResetButtonActionPerformed
+    }//GEN-LAST:event_TwoPiecesModeActionPerformed
 
     private void ThreePiecesModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ThreePiecesModeActionPerformed
         // TODO add your handling code here:
         startGame(3);
         TwoPiecesMode.setEnabled(false);
         ThreePiecesMode.setEnabled(false);
-        mode = 3;
-        TimerPanel.setBackground(new Color(244,225,2));
-        ModePanel.setBackground(new Color(244,225,2));
-        ScorePanel.setBackground(new Color(244,225,2));
-        this.revalidate();
-        this.repaint();
+        mode = 3;   
     }//GEN-LAST:event_ThreePiecesModeActionPerformed
 
     
@@ -508,11 +494,13 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
             getRandomBoard2();
             //block1.setLocation(50,350);
             //block2.setLocation(300,350);
+            board.setBackground(new Color(13,150,41));
         } else if (mode == 3) {
             getRandomBoard3();
             //block1.setLocation(50,350);
             //block2.setLocation(300,350);      
             //block3.setLocation(200,500);
+            board.setBackground(new Color(225,198,0));
         }
 
         // Common logic for adding blocks to the board
@@ -560,11 +548,16 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     public void updateScoreForCurrentPlayer() {
         if (!players.isEmpty() && currentPlayerIndex < players.size()) {
             currentPlayer = players.get(currentPlayerIndex);
-            currentPlayer = players.get(currentPlayerIndex);
             currentPlayer.addScore(100);
         }
-        Score.setText(String.valueOf(currentPlayer.getScore()));
-        
+        switch (currentPlayerIndex) {
+        case 0 -> Score0.setText("Player 1 :" + String.valueOf(currentPlayer.getScore()));
+        case 1 -> Score1.setText("Player 2 :" + String.valueOf(currentPlayer.getScore()));
+        case 2 -> Score2.setText("Player 3 :" + String.valueOf(currentPlayer.getScore()));
+        case 3 -> Score3.setText("Player 4 :" + String.valueOf(currentPlayer.getScore()));
+    }
+        // Handle invalid player index if necessary
+                
     }
     
     public void switchToNextPlayer() {
@@ -576,7 +569,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
             resetAndStartTimer();
             boardCount = 0; 
             startGame(mode);
-            Score.setText("0");
+            
         } else {
             // All players have played, handle end of game
 
@@ -587,8 +580,10 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ModePanel;
     private javax.swing.JLabel NotifySeleceModeLabel;
-    private javax.swing.JButton ResetButton;
-    private javax.swing.JLabel Score;
+    private javax.swing.JLabel Score0;
+    private javax.swing.JLabel Score1;
+    private javax.swing.JLabel Score2;
+    private javax.swing.JLabel Score3;
     private javax.swing.JPanel ScorePanel;
     private javax.swing.JButton ThreePiecesMode;
     private javax.swing.JPanel TimerPanel;

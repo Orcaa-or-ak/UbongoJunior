@@ -21,6 +21,13 @@ public class Player {
         this.score = 0;
     }
     
+    public void saveScore(int player){
+        switch(player){
+            case 1 -> {
+                
+            }
+        }
+    }
 
 }
 
