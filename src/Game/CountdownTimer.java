@@ -23,7 +23,7 @@ public class CountdownTimer extends JProgressBar {
 
         this.countdownValue = originalCountdownValue;
 //----------------------------------------------------------------
-        timer = new javax.swing.Timer(100, e -> {
+        timer = new javax.swing.Timer(1000, e -> {
             Color over;
             if (countdownValue > 0) {
                 if (countdownValue <= 10) {

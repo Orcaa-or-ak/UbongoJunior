@@ -38,9 +38,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         players = new ArrayList<>();
         for (int i = 0; i < numberOfPlayers; i++) {
             players.add(new Player());
-        }
-        currentPlayerIndex = 0;
-        
+        }        
     }
 
 
@@ -449,7 +447,6 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     public void startGame(int mode) {
         this.mode = mode;
         loadNewBoard(mode);
-        
         setupTimer();
         setupPuzzleCheckTimer();
             
@@ -542,9 +539,13 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     
     
     public void updateScoreForCurrentPlayer() {
-        currentPlayer = players.get(currentPlayerIndex);
-        currentPlayer.addScore(100);
+        if (!players.isEmpty() && currentPlayerIndex < players.size()) {
+            currentPlayer = players.get(currentPlayerIndex);
+            currentPlayer = players.get(currentPlayerIndex);
+            currentPlayer.addScore(100);
+        }
         Score.setText(String.valueOf(currentPlayer.getScore()));
+        
     }
     
     public void switchToNextPlayer() {
