@@ -551,10 +551,10 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
             currentPlayer.addScore(100);
         }
         switch (currentPlayerIndex) {
-        case 0 -> Score0.setText("Player 1 :" + String.valueOf(currentPlayer.getScore()));
-        case 1 -> Score1.setText("Player 2 :" + String.valueOf(currentPlayer.getScore()));
-        case 2 -> Score2.setText("Player 3 :" + String.valueOf(currentPlayer.getScore()));
-        case 3 -> Score3.setText("Player 4 :" + String.valueOf(currentPlayer.getScore()));
+        case 0 -> Score0.setText("Player 1 : " + String.valueOf(currentPlayer.getScore()));
+        case 1 -> Score1.setText("Player 2 : " + String.valueOf(currentPlayer.getScore()));
+        case 2 -> Score2.setText("Player 3 : " + String.valueOf(currentPlayer.getScore()));
+        case 3 -> Score3.setText("Player 4 : " + String.valueOf(currentPlayer.getScore()));
     }
         // Handle invalid player index if necessary
                 

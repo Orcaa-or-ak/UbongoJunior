@@ -20,8 +20,10 @@ public class GameBoard extends JPanel {
     }
     
     public Point calculateNearestGridPosition(Point currentPos) {
-        int x = currentPos.x - (currentPos.x % CELL_SIZE);
-        int y = currentPos.y - (currentPos.y % CELL_SIZE);
+        //int x = currentPos.x - (currentPos.x % CELL_SIZE);
+        //int y = currentPos.y - (currentPos.y % CELL_SIZE);
+        int x = CELL_SIZE * (int)(currentPos.x / CELL_SIZE);
+        int y = CELL_SIZE * (int)(currentPos.y / CELL_SIZE);
         return new Point(x, y);
     }
     

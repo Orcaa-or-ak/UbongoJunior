@@ -69,7 +69,6 @@ public class GameBlock extends JComponent {
                     GameBoard board = (GameBoard) getParent();
                     Point nearestGridPos = board.calculateNearestGridPosition(getLocation());
                     // Snap the block to the nearest grid position
-
                     x = nearestGridPos.x;
                     y = nearestGridPos.y;
                     setLocation(x, y);

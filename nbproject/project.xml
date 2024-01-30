@@ -6,7 +6,6 @@
             <name>UbongoJunior</name>
             <source-roots>
                 <root id="src.dir"/>
-                <root id="src.Assets.dir"/>
             </source-roots>
             <test-roots>
                 <root id="test.src.dir"/>
