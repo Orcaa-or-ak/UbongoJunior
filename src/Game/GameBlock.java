@@ -95,7 +95,6 @@ public class GameBlock extends JComponent {
 
     public void rotate() {
         boolean[][] rotatedShape = new boolean[shape[0].length][shape.length];
-        System.out.println("Before rotation: " + shape.length + "x" + shape[0].length);
         for (int i = 0; i < shape.length; i++) {
             for (int j = 0; j < shape[i].length; j++) {
                 rotatedShape[j][shape.length - 1 - i] = shape[i][j];
@@ -104,7 +103,6 @@ public class GameBlock extends JComponent {
         shape = rotatedShape;
         revalidate();
         repaint();
-        System.out.println("After rotation: " + shape.length + "x" + shape[0].length);
     }
     
     public void mirror() {
@@ -115,6 +113,7 @@ public class GameBlock extends JComponent {
                 shape[i][shape[i].length - j - 1] = temp;
             }
         }
+        revalidate();
         repaint();
     }
     

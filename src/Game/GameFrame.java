@@ -11,28 +11,35 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 
 public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
-    private static final int CELL_SIZE = 50;
     private List<Integer> availableBoards2 = new ArrayList<>();
     private List<Integer> availableBoards3 = new ArrayList<>();
+    private List<Player> players;
+    private int currentPlayerIndex = 0;
+    private Player currentPlayer;
     private CountdownTimer timer;
     private Timer checkTimer;
     private int mode = 0;
-    private int lastRoll = -1;
-    private int score = 0;
     private int boardCount =  0;
     private GameBoard board;
     private GameBlock block1;
     private GameBlock block2;
     private GameBlock block3;
 
-    public GameFrame() {
+    public GameFrame(int numberOfPlayers) {
         initComponents();
         setLocationRelativeTo(null);
         initializeBoardLists();
+        // Initialize players
+        players = new ArrayList<>();
+        for (int i = 0; i < numberOfPlayers; i++) {
+            players.add(new Player());
+        }
+        currentPlayerIndex = 0;
         
     }
 
@@ -191,11 +198,13 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         checkTimer.stop();
         checkTimer = null;
         }
-        
+        for (Player player : players) {
+            player.resetScore();
+        }
+        currentPlayerIndex = 0;
         boardCount = 0;
-        score = 0;
         mode = 0;
-        updateScore();
+        Score.setText("0");
         playArea.removeAll();
         TimerPanel.removeAll();
         playArea.add(NotifySeleceModeLabel);
@@ -214,43 +223,12 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         mode = 3;
     }//GEN-LAST:event_ThreePiecesModeActionPerformed
 
-
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GameFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GameFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GameFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GameFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GameFrame().setVisible(true);
-     
-            }
-        });
-    }
     
     
     public void getRandomBoard2(){
+        if (availableBoards2.isEmpty()) {
+            initializeBoardLists(); // Reinitialize the list if empty
+        }
         Random random = new Random();
         int index = random.nextInt(availableBoards2.size());
         int roll = availableBoards2.get(index);
@@ -329,6 +307,9 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     }
     
     private void getRandomBoard3(){
+        if (availableBoards3.isEmpty()) {
+            initializeBoardLists(); // Reinitialize the list if empty
+        }
         Random random = new Random();
         int index = random.nextInt(availableBoards3.size());
         int roll = availableBoards3.get(index);
@@ -416,6 +397,14 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     public void onTimerFinish() {
         if (!isSolved()) {
             displayGameOver();
+            new Thread(() -> {
+                   try {
+                       Thread.sleep(2000); // Wait for 2 seconds
+                       SwingUtilities.invokeLater(() -> switchToNextPlayer());
+                   } catch (InterruptedException ex) {
+                       ex.printStackTrace();
+                   }
+               }).start();
         }
     }
     
@@ -430,7 +419,6 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         }
         if (timer != null){
             timer.stopTime();
-            timer = null;
         }
         playArea.removeAll(); // Clear the play area
         JLabel WellDoneLabel = new JLabel("Well Done!", SwingConstants.CENTER);
@@ -448,7 +436,6 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         }
         if (timer != null){
             timer.stopTime();
-            timer = null;
         }
         playArea.removeAll(); // Clear the play area
         JLabel gameOverLabel = new JLabel("Game Over", SwingConstants.CENTER);
@@ -462,11 +449,15 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     public void startGame(int mode) {
         this.mode = mode;
         loadNewBoard(mode);
+        
         setupTimer();
         setupPuzzleCheckTimer();
+            
     }
     
     private void initializeBoardLists(){
+        availableBoards2.clear();
+        availableBoards3.clear();
         for (int i = 1; i <= 10; i++) {
             availableBoards2.add(i);
             availableBoards3.add(i);
@@ -476,38 +467,37 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     public void checkPuzzleCompletion(){
         if(isSolved()){
            boardCount++;
-           score += 100;
-           if(boardCount < 5){
-               if(mode == 2)
-               {
-                   loadNewBoard(2);
-                   resetAndStartTimer();
-                   updateScore();
-               }
-               else{
-                   loadNewBoard(3);
-                   resetAndStartTimer();
-                   updateScore();
-               }
+           if(boardCount < 5){        
+                loadNewBoard(mode);
+                //resetAndStartTimer();
+                updateScoreForCurrentPlayer();
            }
            else {
                displayWellDone();
-               updateScore();
+               updateScoreForCurrentPlayer();
+               new Thread(() -> {
+                   try {
+                       Thread.sleep(2000); // Wait for 2 seconds
+                       SwingUtilities.invokeLater(() -> switchToNextPlayer());
+                   } catch (InterruptedException ex) {
+                       ex.printStackTrace();
+                   }
+               }).start();
            }
-        }
+        } 
     }
     
     public void loadNewBoard(int mode) {
         playArea.removeAll();
         if (mode == 2) {
             getRandomBoard2();
-            block1.setLocation(50,350);
-            block2.setLocation(300,350);
+            //block1.setLocation(50,350);
+            //block2.setLocation(300,350);
         } else if (mode == 3) {
             getRandomBoard3();
-            block1.setLocation(50,350);
-            block2.setLocation(300,350);      
-            block3.setLocation(200,500);
+            //block1.setLocation(50,350);
+            //block2.setLocation(300,350);      
+            //block3.setLocation(200,500);
         }
 
         // Common logic for adding blocks to the board
@@ -532,6 +522,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     public void resetAndStartTimer() {
         if (timer != null) {
             timer.resetAndStart();
+            System.out.println("time reset");
         }
     }
     
@@ -549,11 +540,27 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         checkTimer.start();
     }
     
-    public void updateScore() {
-        Score.setText(String.valueOf(score)); // Update the text of the Score label
+    
+    public void updateScoreForCurrentPlayer() {
+        currentPlayer = players.get(currentPlayerIndex);
+        currentPlayer.addScore(100);
+        Score.setText(String.valueOf(currentPlayer.getScore()));
     }
     
-    
+    public void switchToNextPlayer() {
+        currentPlayerIndex++;
+        System.err.println("player:" + currentPlayerIndex);
+        System.out.println("Size: " + players.size());
+        if (currentPlayerIndex < players.size()) {
+            boardCount = 0; 
+            resetAndStartTimer();
+            startGame(mode);
+            Score.setText("0");
+        } else {
+            // All players have played, handle end of game
+
+        }
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ModePanel;
