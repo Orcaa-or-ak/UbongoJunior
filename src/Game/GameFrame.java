@@ -60,7 +60,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         setBackground(new java.awt.Color(255, 0, 204));
         setResizable(false);
 
-        playArea.setBackground(new java.awt.Color(153, 0, 0));
+        playArea.setBackground(new java.awt.Color(224, 25, 22));
         playArea.setMaximumSize(new java.awt.Dimension(1000, 1000));
         playArea.setMinimumSize(new java.awt.Dimension(250, 250));
         playArea.setPreferredSize(new java.awt.Dimension(500, 500));
@@ -72,11 +72,11 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         NotifySeleceModeLabel.setText("Please select a mode");
         playArea.add(NotifySeleceModeLabel, java.awt.BorderLayout.CENTER);
 
-        TimerPanel.setBackground(new java.awt.Color(153, 0, 0));
+        TimerPanel.setBackground(new java.awt.Color(216, 32, 18));
         TimerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Timer", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ravie", 0, 36), new java.awt.Color(255, 255, 255))); // NOI18N
         TimerPanel.setLayout(new java.awt.BorderLayout());
 
-        ModePanel.setBackground(new java.awt.Color(153, 0, 0));
+        ModePanel.setBackground(new java.awt.Color(216, 32, 18));
         ModePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mode", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ravie", 0, 36), new java.awt.Color(255, 255, 255))); // NOI18N
 
         TwoPiecesMode.setText("2 pieces");
@@ -120,7 +120,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
             }
         });
 
-        ScorePanel.setBackground(new java.awt.Color(153, 0, 0));
+        ScorePanel.setBackground(new java.awt.Color(216, 32, 18));
         ScorePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Score", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ravie", 0, 36), new java.awt.Color(255, 255, 255))); // NOI18N
 
         Score.setFont(new java.awt.Font("Ravie", 0, 24)); // NOI18N
@@ -183,7 +183,11 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         TwoPiecesMode.setEnabled(false);
         ThreePiecesMode.setEnabled(false);
         mode = 2;
-        
+        TimerPanel.setBackground(new Color(4,137,37));
+        ModePanel.setBackground(new Color(4,137,37));
+        ScorePanel.setBackground(new Color(4,137,37));
+        this.revalidate();
+        this.repaint();
     }//GEN-LAST:event_TwoPiecesModeActionPerformed
 
     private void ResetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetButtonActionPerformed
@@ -219,6 +223,11 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         TwoPiecesMode.setEnabled(false);
         ThreePiecesMode.setEnabled(false);
         mode = 3;
+        TimerPanel.setBackground(new Color(244,225,2));
+        ModePanel.setBackground(new Color(244,225,2));
+        ScorePanel.setBackground(new Color(244,225,2));
+        this.revalidate();
+        this.repaint();
     }//GEN-LAST:event_ThreePiecesModeActionPerformed
 
     
@@ -449,6 +458,11 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         loadNewBoard(mode);
         setupTimer();
         setupPuzzleCheckTimer();
+        block1.setMouseInputEnabled(true);
+        block2.setMouseInputEnabled(true);
+        if (mode == 3) {
+            block3.setMouseInputEnabled(true);
+        }
             
     }
     
@@ -466,8 +480,12 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
            boardCount++;
            if(boardCount < 5){        
                 loadNewBoard(mode);
-                //resetAndStartTimer();
                 updateScoreForCurrentPlayer();
+                block1.setMouseInputEnabled(true);
+                block2.setMouseInputEnabled(true);
+                if (mode == 3) {
+                   block3.setMouseInputEnabled(true);
+                }
            }
            else {
                displayWellDone();
@@ -504,6 +522,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         if (mode == 3) {
             board.addGameBlock(block3); // Add the third block only for 3-block mode
         }
+        
 
         playArea.add(board);
         playArea.revalidate();
@@ -533,7 +552,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     }
     
     private void setupPuzzleCheckTimer() {
-        checkTimer = new Timer(1500, e -> checkPuzzleCompletion());
+        checkTimer = new Timer(2000, e -> checkPuzzleCompletion());
         checkTimer.start();
     }
     
@@ -553,8 +572,9 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         System.err.println("player:" + currentPlayerIndex);
         System.out.println("Size: " + players.size());
         if (currentPlayerIndex < players.size()) {
-            boardCount = 0; 
+            TimerPanel.removeAll();
             resetAndStartTimer();
+            boardCount = 0; 
             startGame(mode);
             Score.setText("0");
         } else {
@@ -562,6 +582,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
 
         }
     }
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ModePanel;

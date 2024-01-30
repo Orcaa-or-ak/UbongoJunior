@@ -76,6 +76,7 @@ public class GameBoard extends JPanel {
         if (isPuzzleSolved()) {
             for (GameBlock block : getGameBlocks()) { // You need to have access to the blocks
                 block.setColor(Color.GREEN);
+                block.setMouseInputEnabled(false);
                 repaint();
             }
         }

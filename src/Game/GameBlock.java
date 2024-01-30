@@ -15,6 +15,7 @@ public class GameBlock extends JComponent {
     private boolean[][] shape; // 2D array to represent the shape of the block
     private Color color; // Color of the block
     private static final int CELL_SIZE = 50;
+    private boolean isMouseInputEnabled = true;
     private int x = 0;
     private int y = 0;
     private Point location;
@@ -30,45 +31,58 @@ public class GameBlock extends JComponent {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            initialClickPoint = e.getPoint();
-            bringToFront();
+            if(isMouseInputEnabled){
+                initialClickPoint = e.getPoint();
+                bringToFront();
+                
+            }
         }
 
         @Override
         public void mouseDragged(MouseEvent e) {
-            int deltaX = e.getX() - initialClickPoint.x;
-            int deltaY = e.getY() - initialClickPoint.y;
-            x += deltaX; // Update x
-            y += deltaY; // Update y
-            setLocation(x, y);
+            if(isMouseInputEnabled){
+                int deltaX = e.getX() - initialClickPoint.x;
+                int deltaY = e.getY() - initialClickPoint.y;
+                x += deltaX; // Update x
+                y += deltaY; // Update y
+                setLocation(x, y);
+            }    
         }
         
         @Override
         public void mouseClicked(MouseEvent e) {
-            location = getLocation();
-        if (SwingUtilities.isRightMouseButton(e)) {
-            rotate();
-        } else if (e.getClickCount() == 2) {
-            mirror();
+            if (isMouseInputEnabled) {
+               location = getLocation();
+               if (SwingUtilities.isRightMouseButton(e)) {
+               rotate();
+            } else if (e.getClickCount() == 2) {
+               mirror();
             }
         }
+        }
+            
         @Override
         public void mouseReleased(MouseEvent e) {
-        // Check if the block is within the board bounds
-        if (getParent() instanceof GameBoard) {
-            GameBoard board = (GameBoard) getParent();
-            Point nearestGridPos = board.calculateNearestGridPosition(getLocation());
-        // Snap the block to the nearest grid position
-            
-            x = nearestGridPos.x;
-            y = nearestGridPos.y;
-            setLocation(x, y);
+            if(isMouseInputEnabled){
+                // Check if the block is within the board bounds
+                if (getParent() instanceof GameBoard) {
+                    GameBoard board = (GameBoard) getParent();
+                    Point nearestGridPos = board.calculateNearestGridPosition(getLocation());
+                    // Snap the block to the nearest grid position
+
+                    x = nearestGridPos.x;
+                    y = nearestGridPos.y;
+                    setLocation(x, y);
+
+                    // Check if the puzzle is solved
+                    board.checkPuzzleSolved();
+                }
         
-        // Check if the puzzle is solved
-            board.checkPuzzleSolved();
-            
-            } 
+            }
         }
+        
+        
+        
         private void bringToFront() {
             getParent().setComponentZOrder(GameBlock.this, 0);
             getParent().repaint();
@@ -77,6 +91,10 @@ public class GameBlock extends JComponent {
 
     addMouseListener(ma);
     addMouseMotionListener(ma);        
+    }
+    
+    public void setMouseInputEnabled(boolean enable) {
+        isMouseInputEnabled = enable;
     }
 
     public void setColor(Color newColor) {
@@ -116,6 +134,8 @@ public class GameBlock extends JComponent {
         revalidate();
         repaint();
     }
+    
+
     
     @Override
     protected void paintComponent(Graphics g) {
