@@ -88,6 +88,9 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         ModePanel.setBackground(new java.awt.Color(153, 0, 0));
         ModePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mode", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ravie", 0, 36), new java.awt.Color(255, 255, 255))); // NOI18N
 
+        TwoPiecesMode.setBackground(new java.awt.Color(153, 0, 0));
+        TwoPiecesMode.setFont(new java.awt.Font("Ravie", 0, 24)); // NOI18N
+        TwoPiecesMode.setForeground(new java.awt.Color(255, 255, 255));
         TwoPiecesMode.setText("2 Blocks");
         TwoPiecesMode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,6 +98,9 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
             }
         });
 
+        ThreePiecesMode.setBackground(new java.awt.Color(153, 0, 0));
+        ThreePiecesMode.setFont(new java.awt.Font("Ravie", 0, 24)); // NOI18N
+        ThreePiecesMode.setForeground(new java.awt.Color(255, 255, 255));
         ThreePiecesMode.setText("3 Blocks");
         ThreePiecesMode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -201,8 +207,8 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     private void TwoPiecesModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TwoPiecesModeActionPerformed
         // TODO add your handling code here:
         startGame(2);
-        TwoPiecesMode.setEnabled(false);
         ThreePiecesMode.setEnabled(false);
+        TwoPiecesMode.setEnabled(false);
         mode = 2;
         
 
@@ -412,6 +418,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         }
         if (timer != null){
             timer.stopTime();
+            timer = null;
         }
         playArea.removeAll(); // Clear the play area
         JLabel WellDoneLabel = new JLabel("Well Done!", SwingConstants.CENTER);
@@ -429,6 +436,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         }
         if (timer != null){
             timer.stopTime();
+            timer = null;
         }
         playArea.removeAll(); // Clear the play area
         JLabel gameOverLabel = new JLabel("Game Over", SwingConstants.CENTER);

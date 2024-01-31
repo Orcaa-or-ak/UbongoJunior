@@ -7,6 +7,7 @@ public class StartFrame extends javax.swing.JFrame {
     
     public StartFrame() {
         initComponents();
+        StartButton.setEnabled(false);
         setLocationRelativeTo(null);
     }
 
@@ -20,26 +21,29 @@ public class StartFrame extends javax.swing.JFrame {
         Background = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(480, 480));
         setResizable(false);
         setSize(new java.awt.Dimension(480, 480));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        StartButton.setBackground(new java.awt.Color(255, 177, 170));
+        StartButton.setFont(new java.awt.Font("Viner Hand ITC", 0, 14)); // NOI18N
         StartButton.setText("Start");
         StartButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 StartButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(StartButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, 80, 50));
+        getContentPane().add(StartButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 220, 90, 50));
 
-        NumOfPlayers.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 Player", "2 Players", "3 Players", "4 Players" }));
+        NumOfPlayers.setBackground(new java.awt.Color(209, 26, 9));
+        NumOfPlayers.setFont(new java.awt.Font("Viner Hand ITC", 0, 14)); // NOI18N
+        NumOfPlayers.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select player", "1 Player", "2 Players", "3 Players", "4 Players" }));
         NumOfPlayers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NumOfPlayersActionPerformed(evt);
             }
         });
-        getContentPane().add(NumOfPlayers, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 220, 80, 50));
+        getContentPane().add(NumOfPlayers, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, -1, 50));
 
         Background.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/UbongoTheme (2).png"))); // NOI18N
@@ -52,17 +56,26 @@ public class StartFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         gameFrame = new GameFrame(numberOfPlayers);
         gameFrame.setVisible(true);
+        
         dispose();
     }//GEN-LAST:event_StartButtonActionPerformed
 
     private void NumOfPlayersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumOfPlayersActionPerformed
         // TODO add your handling code here:
          String selectedValue = (String) NumOfPlayers.getSelectedItem();
-        // Extract the number of players
-         numberOfPlayers = Integer.parseInt(selectedValue.split(" ")[0]);
+         
+         
+         if (selectedValue.equals("Select player")) StartButton.setEnabled(false);
+         else {
+            StartButton.setEnabled(true);
+            // Extract the number of players
+            numberOfPlayers = Integer.parseInt(selectedValue.split(" ")[0]);
+         }
+         
+        
     }//GEN-LAST:event_NumOfPlayersActionPerformed
 
-
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

@@ -21,7 +21,7 @@ public class CountdownTimer extends JProgressBar {
         Color begin = new Color(55, 217, 104);
         setForeground(begin);
 
-        this.countdownValue = originalCountdownValue;
+        countdownValue = originalCountdownValue;
 //----------------------------------------------------------------
         timer = new javax.swing.Timer(1000, e -> {
             Color over;
@@ -40,7 +40,7 @@ public class CountdownTimer extends JProgressBar {
                 }
                 setValue(countdownValue);
                 setString(Integer.toString(countdownValue--));
-            } else {
+            } else if (countdownValue == 0) {
                 setString("Time's up!");
                 finishListener.onTimerFinish();
                 timer.stop();

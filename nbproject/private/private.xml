@@ -3,18 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Codes/UbongoJunior/src/Game/GameBlock.java</file>
-            <file>file:/D:/Codes/UbongoJunior/src/Game/GameBoard.java</file>
-            <file>file:/D:/Codes/UbongoJunior/src/Game/Player.java</file>
-            <file>file:/D:/Codes/UbongoJunior/src/Game/TimeFinishListener.java</file>
-            <file>file:/D:/Codes/UbongoJunior/src/Game/StartFrame.java</file>
-            <file>file:/D:/Codes/UbongoJunior/src/Game/CountdownTimer.java</file>
-            <file>file:/D:/Codes/UbongoJunior/src/Image/UbongoTheme.png</file>
-            <file>file:/D:/Codes/UbongoJunior/src/Board/BoardLayout2.java</file>
-            <file>file:/D:/Codes/UbongoJunior/src/Block/BlockLayout.java</file>
-            <file>file:/D:/Codes/UbongoJunior/src/Image/UbongoTheme%20(2).png</file>
-            <file>file:/D:/Codes/UbongoJunior/src/Board/BoardLayout3.java</file>
-            <file>file:/D:/Codes/UbongoJunior/src/Game/GameFrame.java</file>
+            <file>file:/C:/Users/ADMIN/Desktop/code/Ubungo/UbongoJunior/src/Game/CountdownTimer.java</file>
+            <file>file:/C:/Users/ADMIN/Desktop/code/Ubungo/UbongoJunior/src/Game/GameFrame.java</file>
+            <file>file:/C:/Users/ADMIN/Desktop/code/Ubungo/UbongoJunior/src/Game/GameBoard.java</file>
+            <file>file:/C:/Users/ADMIN/Desktop/code/Ubungo/UbongoJunior/src/Game/GameBlock.java</file>
+            <file>file:/C:/Users/ADMIN/Desktop/code/Ubungo/UbongoJunior/src/Game/Player.java</file>
         </group>
     </open-files>
 </project-private>
