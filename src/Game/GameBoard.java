@@ -3,7 +3,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class GameBoard extends JPanel {
     private final boolean[][] boardShape;
@@ -11,6 +12,7 @@ public class GameBoard extends JPanel {
     private static final int CELL_SIZE = 50;
     int offsetX = 50; // Horizontal offset
     int offsetY = 50; // Vertical offset
+    private Image backgroundImage;
 
     public GameBoard(boolean[][] boardShape) {
         setLayout(null);
@@ -18,7 +20,11 @@ public class GameBoard extends JPanel {
         setPreferredSize(new Dimension(500, 500)); // Set your preferred size
         blocks = new ArrayList<>();
     }
-    
+
+    public void setBackgroundImage(String imagePath) throws IOException {
+        backgroundImage = ImageIO.read(getClass().getResource(imagePath));
+    }
+
     public Point calculateNearestGridPosition(Point currentPos) {
         //int x = currentPos.x - (currentPos.x % CELL_SIZE);
         //int y = currentPos.y - (currentPos.y % CELL_SIZE);
@@ -36,7 +42,7 @@ public class GameBoard extends JPanel {
         for (int i = 0; i < blockShape.length; i++) {
             for (int j = 0; j < blockShape[i].length; j++) {
                 if (blockShape[i][j]) {
-                    int row = (blockPosition.y / CELL_SIZE + i) - 1;
+                    int row = (blockPosition.y / CELL_SIZE + i) - 2;
                     int col = (blockPosition.x / CELL_SIZE + j) - 3;
 
                     if (row < 0 || row >= currentBoardState.length ||
@@ -89,7 +95,8 @@ public class GameBoard extends JPanel {
     protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g;
-
+    
+    g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
     // Set the color for the custom shapes (the filled squares)
     g2d.setColor(Color.WHITE);
 
@@ -99,7 +106,7 @@ public class GameBoard extends JPanel {
 
             // Calculate the top-left corner of the current square
             int x = 3 * offsetX + j * 50; // Include the offset directly in the calculation
-            int y = 1 * offsetY + i * 50; // Include the offset directly in the calculation
+            int y = 2 * offsetY + i * 50; // Include the offset directly in the calculation
 
             if (boardShape[i][j]) {
                 // If the current square is part of the shape, fill it

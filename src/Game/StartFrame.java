@@ -25,7 +25,7 @@ public class StartFrame extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(480, 480));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        StartButton.setBackground(new java.awt.Color(255, 177, 170));
+        StartButton.setBackground(new java.awt.Color(159, 255, 198));
         StartButton.setFont(new java.awt.Font("Viner Hand ITC", 0, 14)); // NOI18N
         StartButton.setText("Start");
         StartButton.addActionListener(new java.awt.event.ActionListener() {
@@ -35,7 +35,7 @@ public class StartFrame extends javax.swing.JFrame {
         });
         getContentPane().add(StartButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 220, 90, 50));
 
-        NumOfPlayers.setBackground(new java.awt.Color(209, 26, 9));
+        NumOfPlayers.setBackground(new java.awt.Color(0, 255, 102));
         NumOfPlayers.setFont(new java.awt.Font("Viner Hand ITC", 0, 14)); // NOI18N
         NumOfPlayers.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select player", "1 Player", "2 Players", "3 Players", "4 Players" }));
         NumOfPlayers.addActionListener(new java.awt.event.ActionListener() {

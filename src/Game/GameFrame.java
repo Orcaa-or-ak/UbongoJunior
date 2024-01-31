@@ -7,6 +7,7 @@ import Block.*;
 import Board.*;
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
@@ -50,7 +51,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
 
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         playArea = new javax.swing.JPanel();
@@ -202,25 +203,23 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void TwoPiecesModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TwoPiecesModeActionPerformed
+    private void TwoPiecesModeActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // TODO add your handling code here:
         startGame(2);
         ThreePiecesMode.setEnabled(false);
         TwoPiecesMode.setEnabled(false);
         mode = 2;
-        
+    }                                             
 
-    }//GEN-LAST:event_TwoPiecesModeActionPerformed
-
-    private void ThreePiecesModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ThreePiecesModeActionPerformed
+    private void ThreePiecesModeActionPerformed(java.awt.event.ActionEvent evt) {                                                
         // TODO add your handling code here:
         startGame(3);
         TwoPiecesMode.setEnabled(false);
         ThreePiecesMode.setEnabled(false);
         mode = 3;   
-    }//GEN-LAST:event_ThreePiecesModeActionPerformed
+    }                                               
 
     
     
@@ -500,15 +499,26 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         playArea.removeAll();
         if (mode == 2) {
             getRandomBoard2();
+            try {
+                board.setBackgroundImage("/Image/green.png");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            
             //block1.setLocation(50,350);
             //block2.setLocation(300,350);
-            board.setBackground(new Color(13,150,41));
+            
         } else if (mode == 3) {
             getRandomBoard3();
+            try {
+                board.setBackgroundImage("/Image/yellow.png");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             //block1.setLocation(50,350);
             //block2.setLocation(300,350);      
             //block3.setLocation(200,500);
-            board.setBackground(new Color(225,198,0));
+            
         }
 
         // Common logic for adding blocks to the board
@@ -585,7 +595,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     }
     
     
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JPanel ModePanel;
     private javax.swing.JLabel NotifySeleceModeLabel;
     private javax.swing.JLabel Score0;
@@ -597,5 +607,5 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     private javax.swing.JPanel TimerPanel;
     private javax.swing.JButton TwoPiecesMode;
     private javax.swing.JPanel playArea;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 }

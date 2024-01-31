@@ -32,7 +32,7 @@
     <Component class="javax.swing.JButton" name="StartButton">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="aa" green="b1" red="ff" type="rgb"/>
+          <Color blue="c6" green="ff" red="9f" type="rgb"/>
         </Property>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Viner Hand ITC" size="14" style="0"/>
@@ -51,7 +51,7 @@
     <Component class="javax.swing.JComboBox" name="NumOfPlayers">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="9" green="1a" red="d1" type="rgb"/>
+          <Color blue="66" green="ff" red="0" type="rgb"/>
         </Property>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Viner Hand ITC" size="14" style="0"/>
