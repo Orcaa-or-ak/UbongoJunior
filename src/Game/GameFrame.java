@@ -31,11 +31,16 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     private GameBlock block1;
     private GameBlock block2;
     private GameBlock block3;
+    private int[] saveScore;
+
 
     public GameFrame(int numberOfPlayers) {
         initComponents();
         setLocationRelativeTo(null);
         initializeBoardLists();
+
+        saveScore = new int[numberOfPlayers];
+
         // Initialize players
         players = new ArrayList<>();
         for (int i = 0; i < numberOfPlayers; i++) {
@@ -590,7 +595,27 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
             
         } else {
             // All players have played, handle end of game
-
+            if (checkTimer != null) {
+                checkTimer.stop();// Stop the checkTimer
+                checkTimer = null;
+            }
+            if (timer != null) {
+                timer.stopTime();
+                timer = null;
+            }
+            int max = 0;
+            playArea.removeAll();
+            JLabel winner = new JLabel("",SwingConstants.CENTER);
+            winner.setFont(new Font("Ravie", Font.BOLD, 36));
+            winner.setForeground(Color.yellow);
+            for(int i = 0; i < saveScore.length; i++)
+            {
+                if ( saveScore[i] > saveScore[max] ) max = i;
+            }
+            winner.setText("Player " + (max+1) + " win" );
+            playArea.add(winner);
+            playArea.revalidate();
+            playArea.repaint();
         }
     }
     
