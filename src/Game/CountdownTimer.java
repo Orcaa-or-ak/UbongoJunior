@@ -7,12 +7,12 @@ import javax.swing.*;
 public class CountdownTimer extends JProgressBar {
     private javax.swing.Timer timer;
     private int countdownValue;
-    private final int originalCountdownValue = 40;
+    private int originalCountdownValue = 0;
     private TimeFinishListener finishListener;
 
-    public CountdownTimer() {
-        super(0, 40);
-
+    public CountdownTimer(int time) {
+        super(0, time);
+        originalCountdownValue = time;
         setStringPainted(true);
         setPreferredSize(new Dimension(245, 40));
         Font font = new Font("Ravie", 0, 20);

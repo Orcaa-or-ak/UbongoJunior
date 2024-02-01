@@ -8,6 +8,9 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
@@ -43,9 +46,22 @@ public class GameBlock extends JComponent {
             if(isMouseInputEnabled){
                 int deltaX = e.getX() - initialClickPoint.x;
                 int deltaY = e.getY() - initialClickPoint.y;
-                x += deltaX; // Update x
-                y += deltaY; // Update y
-                setLocation(x, y);
+                int newX = x + deltaX; // Proposed new x-coordinate
+                int newY = y + deltaY;
+                Rectangle bounds = getParent().getBounds();
+                int maxWidth = bounds.width - getWidth();
+                int maxHeight = bounds.height - getHeight();
+
+                // Adjust newX and newY to be within the bounds
+                newX = Math.max(0, Math.min(newX, maxWidth));
+                newY = Math.max(0, Math.min(newY, maxHeight));
+
+                // Update x and y with the new position
+                x = newX;
+                y = newY;
+
+                // Set the new location for the GameBlock
+                setLocation(newX, newY);
             }    
         }
         
@@ -54,18 +70,21 @@ public class GameBlock extends JComponent {
             if (isMouseInputEnabled) {
                location = getLocation();
                if (SwingUtilities.isRightMouseButton(e)) {
-               rotate();
+                    rotate();
             } else if (e.getClickCount() == 2) {
-               mirror();
+                mirror();
             }
         }
         }
             
         @Override
         public void mouseReleased(MouseEvent e) {
-            if(isMouseInputEnabled){
+            if((isMouseInputEnabled) ){
                 // Check if the block is within the board bounds
                 if (getParent() instanceof GameBoard) {
+                    
+                    new Soundplay("Sound/drop.wav");
+                    
                     GameBoard board = (GameBoard) getParent();
                     Point nearestGridPos = board.calculateNearestGridPosition(getLocation());
                     // Snap the block to the nearest grid position

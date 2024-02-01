@@ -1,10 +1,13 @@
 package Game;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 public class GameBoard extends JPanel {
     private final boolean[][] boardShape;
@@ -42,7 +45,8 @@ public class GameBoard extends JPanel {
         for (int i = 0; i < blockShape.length; i++) {
             for (int j = 0; j < blockShape[i].length; j++) {
                 if (blockShape[i][j]) {
-                    int row = (blockPosition.y / CELL_SIZE + i) - 2;
+                    
+                    int row = (blockPosition.y / CELL_SIZE + i) - 4;
                     int col = (blockPosition.x / CELL_SIZE + j) - 3;
 
                     if (row < 0 || row >= currentBoardState.length ||
@@ -65,6 +69,7 @@ public class GameBoard extends JPanel {
                 }
             }
         }
+        
         System.out.println("Board is solved");
         return true; // Puzzle is solved
     }
@@ -83,6 +88,9 @@ public class GameBoard extends JPanel {
     public void checkPuzzleSolved() {
         if (isPuzzleSolved()) {
             for (GameBlock block : getGameBlocks()) { // You need to have access to the blocks
+                
+                new Soundplay("Sound/done.wav");
+               
                 block.setColor(Color.GREEN);
                 block.setMouseInputEnabled(false);
                 repaint();
@@ -106,7 +114,7 @@ public class GameBoard extends JPanel {
 
             // Calculate the top-left corner of the current square
             int x = 3 * offsetX + j * 50; // Include the offset directly in the calculation
-            int y = 2 * offsetY + i * 50; // Include the offset directly in the calculation
+            int y = 4 * offsetY + i * 50; // Include the offset directly in the calculation
 
             if (boardShape[i][j]) {
                 // If the current square is part of the shape, fill it

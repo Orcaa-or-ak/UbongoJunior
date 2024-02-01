@@ -7,9 +7,14 @@ import Block.*;
 import Board.*;
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -22,7 +27,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     private List<Integer> availableBoards3 = new ArrayList<>();
     private List<Player> players;
     private int currentPlayerIndex = 0;
-    private Player currentPlayer;
+    private Player currentPlayer = new Player();
     private CountdownTimer timer;
     private Timer checkTimer;
     private int mode = 0;
@@ -32,12 +37,31 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     private GameBlock block2;
     private GameBlock block3;
     private int[] saveScore;
-
+    BackgroundMusic bg;
+    private StartFrame stFr;
 
     public GameFrame(int numberOfPlayers) {
         initComponents();
+        setTitle("Ubongo Junior - Game");
         setLocationRelativeTo(null);
         initializeBoardLists();
+        
+
+        playArea.removeAll();
+        try {
+            // Set background
+            NotifySeleceModeLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/instruction.png")));
+
+            // Add the label to your panel
+            playArea.add(NotifySeleceModeLabel);
+
+            // If the playArea is already visible, you might need to refresh it
+            playArea.revalidate();
+            playArea.repaint();
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle the case where the image isn't found or can't be read
+        }
 
         saveScore = new int[numberOfPlayers];
 
@@ -84,7 +108,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         NotifySeleceModeLabel.setFont(new java.awt.Font("Ravie", 0, 24)); // NOI18N
         NotifySeleceModeLabel.setForeground(new java.awt.Color(255, 255, 255));
         NotifySeleceModeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        NotifySeleceModeLabel.setText("Please select a mode");
+        NotifySeleceModeLabel.setText("");
         playArea.add(NotifySeleceModeLabel, java.awt.BorderLayout.CENTER);
 
         TimerPanel.setBackground(new java.awt.Color(153, 0, 0));
@@ -100,6 +124,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         TwoPiecesMode.setText("2 Blocks");
         TwoPiecesMode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bg = new BackgroundMusic("Music/block2.wav");
                 TwoPiecesModeActionPerformed(evt);
             }
         });
@@ -110,6 +135,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         ThreePiecesMode.setText("3 Blocks");
         ThreePiecesMode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bg = new BackgroundMusic("Music/block3.wav");
                 ThreePiecesModeActionPerformed(evt);
             }
         });
@@ -212,6 +238,8 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
 
     private void TwoPiecesModeActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // TODO add your handling code here:
+        
+        new Soundplay("Sound/button.wav");
         startGame(2);
         ThreePiecesMode.setEnabled(false);
         TwoPiecesMode.setEnabled(false);
@@ -220,6 +248,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
 
     private void ThreePiecesModeActionPerformed(java.awt.event.ActionEvent evt) {                                                
         // TODO add your handling code here:
+        new Soundplay("Sound/button.wav");
         startGame(3);
         TwoPiecesMode.setEnabled(false);
         ThreePiecesMode.setEnabled(false);
@@ -402,7 +431,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
             displayGameOver();
             new Thread(() -> {
                    try {
-                       Thread.sleep(2000); // Wait for 2 seconds
+                       Thread.sleep(3500); // Wait for 3.5 seconds
                        SwingUtilities.invokeLater(() -> switchToNextPlayer());
                    } catch (InterruptedException ex) {
                        ex.printStackTrace();
@@ -424,6 +453,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
             timer.stopTime();
             timer = null;
         }
+        new Soundplay("Sound/win.wav");
         playArea.removeAll(); // Clear the play area
         JLabel WellDoneLabel = new JLabel("Well Done!", SwingConstants.CENTER);
         WellDoneLabel.setFont(new Font("Ravie", Font.BOLD, 24));
@@ -442,6 +472,8 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
             timer.stopTime();
             timer = null;
         }
+        new Soundplay("Sound/lose.wav");
+        
         playArea.removeAll(); // Clear the play area
         JLabel gameOverLabel = new JLabel("Game Over", SwingConstants.CENTER);
         gameOverLabel.setFont(new Font("Ravie", Font.BOLD, 24));
@@ -454,7 +486,12 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     public void startGame(int mode) {
         this.mode = mode;
         loadNewBoard(mode);
-        setupTimer();
+        if(mode == 2){
+            setupTimer(60);
+        }
+        else {
+            setupTimer(80);
+        }
         setupPuzzleCheckTimer();
         block1.setMouseInputEnabled(true);
         block2.setMouseInputEnabled(true);
@@ -490,7 +527,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
                updateScoreForCurrentPlayer();
                new Thread(() -> {
                    try {
-                       Thread.sleep(2000); // Wait for 2 seconds
+                       Thread.sleep(3500); // Wait for 3.5 seconds
                        SwingUtilities.invokeLater(() -> switchToNextPlayer());
                    } catch (InterruptedException ex) {
                        ex.printStackTrace();
@@ -553,9 +590,9 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
         }
     }
     
-    private void setupTimer() {
+    private void setupTimer(int time) {
         // Initialize the timer
-        timer = new CountdownTimer();
+        timer = new CountdownTimer(time);
         timer.setFinishListener(this);
         TimerPanel.add(timer, BorderLayout.CENTER); // Add timer to the TimerPanel
         TimerPanel.revalidate();
@@ -584,6 +621,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
     }
     
     public void switchToNextPlayer() {
+        saveScore[currentPlayerIndex] = currentPlayer.getScore();
         currentPlayerIndex++;
         System.err.println("player:" + currentPlayerIndex);
         System.out.println("Size: " + players.size());
@@ -605,17 +643,36 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
             }
             int max = 0;
             playArea.removeAll();
-            JLabel winner = new JLabel("",SwingConstants.CENTER);
+            
+            bg.stop();
+                        
+            new Soundplay("Sound/hooray.wav");
+            new Soundplay("Music/victory.wav");
+            
+            JLabel winner = new JLabel("", SwingConstants.CENTER);
             winner.setFont(new Font("Ravie", Font.BOLD, 36));
             winner.setForeground(Color.yellow);
             for(int i = 0; i < saveScore.length; i++)
             {
                 if ( saveScore[i] > saveScore[max] ) max = i;
             }
-            winner.setText("Player " + (max+1) + " win" );
+            max += 1;
+            winner.setText("Player " + max + " wins" );
             playArea.add(winner);
             playArea.revalidate();
             playArea.repaint();
+            
+            new Thread(() -> {
+                   try {
+                       Thread.sleep(15000); // Wait for 15 seconds
+                       stFr = new StartFrame();
+                       stFr.setVisible(true);
+                       dispose();
+                   } catch (InterruptedException ex) {
+                       ex.printStackTrace();
+                   }
+               }).start();
+            
         }
     }
     

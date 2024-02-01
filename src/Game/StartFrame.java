@@ -1,14 +1,29 @@
 
 package Game;
 
+import java.awt.Toolkit;
+import java.io.File;
+import java.io.InputStream;
+import javax.sound.sampled.AudioInputStream;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.swing.JFrame;
+
 public class StartFrame extends javax.swing.JFrame {
     private GameFrame gameFrame;
     private int numberOfPlayers;
+    public static BackgroundMusic bgm;
     
     public StartFrame() {
         initComponents();
+        
         StartButton.setEnabled(false);
         setLocationRelativeTo(null);
+        
+        bgm = new BackgroundMusic("Music/menu.wav");
+        
+        //new Soundplay("Music/menu.wav");
     }
 
 
@@ -21,6 +36,7 @@ public class StartFrame extends javax.swing.JFrame {
         Background = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Ubongo Junior - Menu");
         setResizable(false);
         setSize(new java.awt.Dimension(480, 480));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -54,6 +70,8 @@ public class StartFrame extends javax.swing.JFrame {
 
     private void StartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartButtonActionPerformed
         // TODO add your handling code here:
+        new Soundplay("Sound/button.wav");
+        bgm.stop();
         gameFrame = new GameFrame(numberOfPlayers);
         gameFrame.setVisible(true);
         
@@ -64,6 +82,7 @@ public class StartFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
          String selectedValue = (String) NumOfPlayers.getSelectedItem();
          
+         new Soundplay("Sound/button.wav");
          
          if (selectedValue.equals("Select player")) StartButton.setEnabled(false);
          else {
