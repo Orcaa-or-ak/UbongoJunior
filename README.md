@@ -1,4 +1,4 @@
-//Codee in NetBeans.
+//Coded in NetBeans.
 
 Run .exe file in "exe" folder.
 
