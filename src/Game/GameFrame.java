@@ -664,7 +664,7 @@ public class GameFrame extends javax.swing.JFrame implements TimeFinishListener{
             
             new Thread(() -> {
                    try {
-                       Thread.sleep(15000); // Wait for 15 seconds
+                       Thread.sleep(13000); // Wait for 13 seconds
                        stFr = new StartFrame();
                        stFr.setVisible(true);
                        dispose();
